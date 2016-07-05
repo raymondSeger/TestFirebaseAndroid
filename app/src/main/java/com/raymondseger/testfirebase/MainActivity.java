@@ -11,6 +11,8 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.crash.FirebaseCrash;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.google.firebase.storage.FirebaseStorage;
@@ -205,7 +207,12 @@ public class MainActivity extends AppCompatActivity {
         */
 
         // test firebase crash
-        FirebaseCrash.report(new Exception("My first Android non-fatal error"));
+        //FirebaseCrash.report(new Exception("My first Android non-fatal error"));
+
+        // test single device FCM
+        Log.d("BILLY_TAG", FirebaseInstanceId.getInstance().getToken() );
+        // test topic FCM
+        // FirebaseMessaging.getInstance().subscribeToTopic("test_topic");
 
     }
 
