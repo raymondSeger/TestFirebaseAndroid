@@ -23,7 +23,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "FCM Notification Message: " + remoteMessage.getNotification() );
         Log.d(TAG, "FCM Data Message: " + remoteMessage.getData() ); // optional too
         Log.d(TAG, "FCM From: " + remoteMessage.getFrom() );
-        Log.d(TAG, "FCM Body: " + remoteMessage.getNotification().getBody() ); // optional, can lead to error
+        // Log.d(TAG, "FCM Body: " + remoteMessage.getNotification().getBody() ); // optional, can lead to error
 
         sendNotification( remoteMessage.getData().toString() );
     }
