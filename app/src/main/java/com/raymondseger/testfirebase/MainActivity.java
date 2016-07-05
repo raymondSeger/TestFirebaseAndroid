@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.google.firebase.storage.FirebaseStorage;
@@ -184,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
         */
 
         // remote config
+        /*
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         mFirebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults);
         mFirebaseRemoteConfig.fetch(5)
@@ -200,6 +202,10 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+        */
+
+        // test firebase crash
+        FirebaseCrash.report(new Exception("My first Android non-fatal error"));
 
     }
 
