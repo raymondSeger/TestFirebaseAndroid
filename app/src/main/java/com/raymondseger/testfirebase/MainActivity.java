@@ -1,11 +1,16 @@
 package com.raymondseger.testfirebase;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.raymondseger.testfirebase.User.User;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -129,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
         // set database realtime
         // Write a message to the database
+        /*
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("test_message");
         myRef.push().setValue("test_value_2"); // test string value
@@ -151,7 +157,23 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+        */
 
+        // firebase storage
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef             = storage.getReferenceFromUrl("gs://project-4354686347802697840.appspot.com");
+        StorageReference picture_1              = storageRef.child("1462070121170.jpg");
+        StorageReference picture_2              = storageRef.child("testFolder1/test.jpg");
+        StorageReference picture_does_not_exist = storageRef.child("testFolder1/test2.jpg");
+
+        picture_1.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Log.d("BILLY_TAG", uri.toString() );
+            }
+        });
+
+        Toast.makeText(MainActivity.this, picture_1.getPath() + " , " + picture_2.getPath() + " , " + picture_does_not_exist.getPath(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
