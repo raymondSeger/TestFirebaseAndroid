@@ -10,15 +10,18 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class MainActivity extends AppCompatActivity {
 
     // firebase analytic
     private FirebaseAnalytics mFirebaseAnalytics;
-    
+
     // firebase auth
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -68,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         // test create user
+        /*
         mAuth.createUserWithEmailAndPassword("testemail1@yahoo.com", "123123")
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -81,6 +85,42 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+        */
+
+        // test login user
+        mAuth.signInWithEmailAndPassword("testemail1@yahoo.com", "123123")
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(MainActivity.this, "login fail", Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(MainActivity.this, "login success", Toast.LENGTH_SHORT).show();
+
+                            AuthCredential credential = EmailAuthProvider.getCredential("testemail1@yahoo.com", "123123");
+
+                            // Prompt the user to re-provide their sign-in credentials
+                            FirebaseAuth.getInstance().getCurrentUser().reauthenticate(credential)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Toast.makeText(MainActivity.this, "User re-authenticated.", Toast.LENGTH_SHORT).show();
+
+                                            // update profile
+                                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                    .setDisplayName("Raymond Goldman")
+                                                    .build();
+                                            FirebaseAuth.getInstance().getCurrentUser().updateProfile(profileUpdates);
+
+                                        }
+                                    });
+                        }
+                    }
+                });
+
+
 
     }
 
