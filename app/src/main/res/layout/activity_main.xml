@@ -13,6 +13,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
+        android:text="Currently logged in or not: "
         android:id="@+id/textView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/logged_in_or_not"
+        tools:text="No / Yes "
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        tools:text="Profile Data"
+        android:id="@+id/profile_data"
+        android:layout_below="@+id/logged_in_or_not"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="31dp" />
 </RelativeLayout>
