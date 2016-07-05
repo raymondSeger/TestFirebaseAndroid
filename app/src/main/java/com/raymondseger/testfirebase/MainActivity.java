@@ -8,7 +8,10 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.raymondseger.testfirebase.User.User;
@@ -36,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
     // firebase auth
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+
+    // firebase remote config
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
 
     private TextView logged_in_or_not;
     private TextView profile_data;
@@ -160,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
         */
 
         // firebase storage
+        /*
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef             = storage.getReferenceFromUrl("gs://project-4354686347802697840.appspot.com");
         StorageReference picture_1              = storageRef.child("1462070121170.jpg");
@@ -174,6 +181,26 @@ public class MainActivity extends AppCompatActivity {
         });
 
         Toast.makeText(MainActivity.this, picture_1.getPath() + " , " + picture_2.getPath() + " , " + picture_does_not_exist.getPath(), Toast.LENGTH_SHORT).show();
+        */
+
+        // remote config
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        mFirebaseRemoteConfig.setDefaults(R.xml.remote_config_defaults);
+        mFirebaseRemoteConfig.fetch(5)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        mFirebaseRemoteConfig.activateFetched();
+                        Toast.makeText(MainActivity.this, mFirebaseRemoteConfig.getString("promo_enabled") , Toast.LENGTH_LONG).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+
+                    }
+                });
+
     }
 
     @Override
